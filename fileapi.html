@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    input[type=file]
+    {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .file-label
+    {
+      cursor: pointer;
+    }
+
+    .label-image
+    {
+      font-size: 30px;
+    }
+
+    #theImage
+    {
+      width: 200px;
+    }
+  </style>
+</head>
+<body class="container text-center">
+<input type="file" id="photoInput">
+<label for="photoInput" class="file-label text-center">
+  <div class="label-image glyphicon glyphicon-upload"></div>
+  <div class="label-text">Выбрать файл</div>
+</label>
+<div>
+  <img src="" class="img-circle" id="theImage">
+</div>
+
+<script>
+  function readImage(file) {
+    return new Promise(resolve => {
+      var fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+      fileReader.addEventListener('load', function() {
+        resolve(fileReader.result);
+      });
+    })
+  }
+
+  photoInput.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+
+    console.log(file);
+
+    if (file.size > 512 * 1024) {
+      alert('!!!!')
+    } else {
+        theImage.src = URL.createObjectURL(file);
+    }
+  });
+</script>
+blob:http://localhost:63342/5407d979-6d62-4f6f-89ba-551c3ad2cbea
+</body>
+</html>

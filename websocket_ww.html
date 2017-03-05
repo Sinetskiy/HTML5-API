@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .list-group {
+            height: 300px;
+            overflow: scroll;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="container">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>
+            Сообщения
+        </h3>
+    </div>
+    <ul class="list-group" id="messageContainer">
+    </ul>
+</div>
+<div class="row">
+    <div class="col-sm-10">
+        <input class="form-control" type="text" id="messageText" placeholder="введите сообщение...">
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="sendButton">отправить</button>
+    </div>
+</div>
+
+<script>
+    var worker = new Worker('worker.js');
+
+    worker.addEventListener('message', function(e) {
+        var message = e.data.trim();
+
+        if (message) {
+            var messageItem = document.createElement('li');
+
+            messageItem.className = "list-group-item";
+            messageItem.textContent = message;
+
+            messageContainer.appendChild(messageItem);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+    });
+
+    function sendMessage() {
+        worker.postMessage(messageText.value);
+
+        messageText.value = '';
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    messageText.addEventListener('change', sendMessage);
+</script>
+</body>
+</html>

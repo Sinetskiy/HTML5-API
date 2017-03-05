@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container">
+<div>Цвет фона: <input type="text" data-rule="backgroundColor" value="#fff"></div>
+<div>Цвет текста: <input type="text" data-rule="color" value="#000"></div>
+<div>Размер шрифта: <input type="text" data-rule="fontSize" value="16px"></div>
+<hr>
+<div id="content">
+    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet consequatur culpa dolore, et fugiat inventore
+        maiores minus neque qui quo, sint soluta, velit voluptates. Atque dicta dolore nisi quas quos?
+    </div>
+    <div>Fugit impedit magni nihil odio. Ab aliquid aperiam at consequatur culpa delectus deleniti exercitationem fugiat
+        iste iusto molestiae natus perferendis, perspiciatis quae quaerat quos recusandae temporibus unde! Ea
+        perferendis, soluta!
+    </div>
+    <div>Alias nihil placeat voluptatum. Culpa dignissimos dolores, eaque eveniet iste labore maxime molestiae, nihil
+        nisi nobis quaerat quod repellat reprehenderit sapiente sed tempore veritatis voluptate voluptatem. Accusantium
+        commodi eius iure?
+    </div>
+    <div>Ab, animi aspernatur, earum enim est expedita illo officia perspiciatis possimus repellat suscipit vero.
+        Debitis enim fugiat, hic laborum natus nemo nisi nobis odio quos reiciendis tenetur veniam voluptas voluptate?
+    </div>
+    <div>Adipisci at beatae blanditiis culpa delectus deleniti eos fugit harum illum incidunt ipsa ipsam laborum magnam
+        molestiae mollitia neque numquam pariatur, perferendis quas quasi repellat repellendus similique soluta unde
+        voluptatum!
+    </div>
+    <div>Commodi est reprehenderit rerum sapiente! Ad aspernatur assumenda doloremque earum eius ex hic iusto
+        laudantium, nisi officia praesentium quia quos sunt vitae voluptatem. Adipisci dolores in labore perspiciatis
+        praesentium sapiente.
+    </div>
+    <div>Aliquid blanditiis eveniet ex fuga inventore ratione tempore vel. At aut, beatae consectetur deleniti eligendi
+        expedita, maiores nam natus nihil perspiciatis praesentium ratione reiciendis rerum. Beatae enim esse pariatur
+        quaerat.
+    </div>
+    <div>Deserunt dolore ea nobis nostrum quae unde, voluptatum? Aliquam animi, aut doloribus dolorum et eveniet fugit
+        id impedit magni minima molestiae, officia perspiciatis placeat praesentium repudiandae sapiente sequi suscipit,
+        velit?
+    </div>
+    <div>Adipisci blanditiis consectetur distinctio et fugit illum minus molestiae perferendis quo, totam. Adipisci
+        blanditiis dolor, ducimus eum ipsam laboriosam libero neque nobis non porro possimus provident quod quos tenetur
+        ullam!
+    </div>
+    <div>Ea eaque molestias natus voluptates voluptatibus! Ad consequuntur culpa cumque doloremque dolorum ea excepturi
+        ipsum magni modi nam praesentium quas, qui quos, repellat sequi sint sit suscipit tempora veniam vitae.
+    </div>
+</div>
+<script>
+    document.body.addEventListener('keyup', function(e) {
+        content.style[e.target.dataset.rule] = e.target.value;
+    });
+</script>
+</body>
+</html>

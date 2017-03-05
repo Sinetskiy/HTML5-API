@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .list-group {
+            height: 300px;
+            overflow: scroll;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="container">
+<div class="row">
+    <form role="form" id="addForm">
+        <div class="form-group">
+            <label for="nameField">Имя</label>
+            <input type="email" class="form-control" id="nameField" placeholder="имя...">
+        </div>
+        <div class="form-group">
+            <label for="lastNameField">Фамилия</label>
+            <input type="text" class="form-control" id="lastNameField" placeholder="фамилия...">
+        </div>
+
+    </form>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default" id="sendButton">добавить</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="clearButton">очистить</button>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+        </tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+    </table>
+</div>
+
+<script>
+    var db = openDatabase('students', '1.0', 'students db', 2 * 1024 * 1024);
+
+    new Promise(function(resolve) {
+        db.transaction(function(tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS students (name, lastName)', [], resolve);
+        });
+    }).then(function() {
+        db.transaction(function(tx) {
+            tx.executeSql('SELECT * FROM students', [], function(tx, res) {
+                for (var i = 0; i < res.rows.length; i++) {
+                    var row = res.rows[i];
+
+                    addToList(row.name, row.lastName);
+                }
+            });
+        });
+
+        function onClick() {
+            var name = nameField.value.trim(),
+                lastName = lastNameField.value.trim();
+
+            if (!name || !lastName) {
+                throw new Error('Введите данные!');
+            }
+
+            addToList(name, lastName);
+            saveToDB(name, lastName);
+
+            nameField.value = '';
+            lastNameField.value = '';
+        }
+
+        sendButton.addEventListener('click', onClick);
+        clearButton.addEventListener('click', clearList);
+        addForm.addEventListener('keyup', function(e) {
+            if (e.keyCode === 13) {
+                onClick();
+            }
+        })
+    });
+
+    function addToList(name, lastName) {
+        var row = document.createElement('tr'),
+                celName = document.createElement('td'),
+                celLastName = document.createElement('td');
+
+        celName.textContent = name;
+        celLastName.textContent = lastName;
+
+        row.appendChild(celName);
+        row.appendChild(celLastName);
+
+        studentsTable.appendChild(row);
+    }
+
+    function saveToDB(name, lastName) {
+        db.transaction(function(tx) {
+            tx.executeSql('INSERT INTO students VALUES (?, ?)', [name, lastName]);
+        });
+    }
+
+    function clearList() {
+        db.transaction(function(tx) {
+            tx.executeSql('DELETE FROM students');
+        });
+
+        studentsTable.innerHTML = '';
+    }
+</script>
+</body>
+</html>

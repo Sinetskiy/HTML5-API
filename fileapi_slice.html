@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        input[type=file] {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .file-label {
+            cursor: pointer;
+        }
+
+        .label-image {
+            font-size: 30px;
+        }
+
+        #theImage {
+            width: 200px;
+        }
+    </style>
+</head>
+<body class="container text-center">
+<input type="file" id="photoInput">
+<label for="photoInput" class="file-label text-center">
+    <div class="label-image glyphicon glyphicon-upload"></div>
+    <div class="label-text">Выбрать файл</div>
+</label>
+<div id="progress"></div>
+<div id="content"></div>
+
+<script>
+    var file,
+        fileReader = new FileReader(),
+        chunkSize = 1024,
+        chunksCount,
+        lastEndByte = 0;
+
+    function loadNextChunk() {
+        var currentChunkSize = lastEndByte + chunkSize > file.size ? file.size - lastEndByte : chunkSize,
+            blob = file.slice(lastEndByte, lastEndByte + currentChunkSize);
+
+        fileReader.readAsText(blob);
+
+        lastEndByte += currentChunkSize;
+    }
+
+    fileReader.addEventListener('load', function() {
+        progress.textContent = 'Загружено: ' + parseInt(100 / chunksCount * lastEndByte / chunkSize) + '%';
+
+        //TODO отправка данных на сервер
+        content.textContent += this.result;
+
+        if (lastEndByte < file.size) {
+            loadNextChunk();
+        }
+    });
+
+    photoInput.addEventListener('change', function(e) {
+        file = e.target.files[0];
+        chunksCount = file.size < chunkSize ? 1 : file.size / chunkSize;
+        lastEndByte = 0;
+
+        loadNextChunk();
+    });
+</script>
+</body>
+</html>
